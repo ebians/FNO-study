@@ -1,0 +1,20 @@
+# Config for 1-D Burgers' equation benchmark
+
+problem: burgers
+n_samples: 1000
+n_x: 128
+train_ratio: 0.8
+batch_size: 32
+num_workers: 0
+
+# Model
+modes: 16
+width: 64
+n_layers: 4
+
+# Training
+n_epochs: 100
+lr: 1.0e-3
+weight_decay: 1.0e-4
+seed: 42
+checkpoint_dir: checkpoints/burgers
