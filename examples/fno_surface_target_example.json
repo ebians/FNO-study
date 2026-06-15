@@ -1,0 +1,16 @@
+{
+  "case_id": "PKG_WARP_0001",
+  "quantity": "top_surface_warpage",
+  "unit": "mm",
+  "grid_shape": {
+    "height": 4,
+    "width": 4
+  },
+  "field_hw": [
+    [0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0]
+  ],
+  "source": "Template target field. Replace with the gridded top-surface displacement extracted from FrontISTR AVS results."
+}

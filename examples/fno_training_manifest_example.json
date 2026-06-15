@@ -1,0 +1,14 @@
+{
+  "samples": [
+    {
+      "case_id": "PKG_WARP_0001",
+      "features_path": "../artifacts/fno_features.json",
+      "target_path": "../artifacts/fno_surface_target.json"
+    },
+    {
+      "case_id": "PKG_WARP_0001_UCD",
+      "features_path": "../artifacts/fno_features.json",
+      "target_path": "../artifacts/fno_surface_target_from_avs_ucd.json"
+    }
+  ]
+}

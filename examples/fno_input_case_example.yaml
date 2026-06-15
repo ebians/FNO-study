@@ -1,0 +1,270 @@
+schema_version: 1.0
+case_id: PKG_WARP_0001
+description: >
+  Example input for one FNO case. Spatially varying maps are shown as 4x4 demo data
+  for readability. In production, replace each demo map with a 100x100 map on the
+  same normalized coordinate system.
+
+target:
+  quantity: top_surface_warpage
+  unit: mm
+
+grid:
+  cell_demo_shape: [4, 4]
+  cell_production_shape: [100, 100]
+  node_demo_shape: [5, 5]
+  node_production_shape: [101, 101]
+  coordinate_definition: normalized
+  demo_matrix_row_order: top_to_bottom
+  x_cell_centers_demo: [0.125, 0.375, 0.625, 0.875]
+  y_cell_centers_demo: [0.875, 0.625, 0.375, 0.125]
+  x_nodes_demo: [0.00, 0.25, 0.50, 0.75, 1.00]
+  y_nodes_demo: [1.00, 0.75, 0.50, 0.25, 0.00]
+
+global_conditions:
+  package_size_mm:
+    lx: 22.0
+    ly: 18.0
+  total_thickness_um: 620.0
+  delta_temperature_C: 165.0
+  boundary_condition: corner_point_constraints
+  support_points:
+    - point_id: top_left
+      location_normalized:
+        x: 0.00
+        y: 1.00
+      constrained_dofs: [ux, uy, uz]
+    - point_id: bottom_left
+      location_normalized:
+        x: 0.00
+        y: 0.00
+      constrained_dofs: [uy, uz]
+    - point_id: bottom_right
+      location_normalized:
+        x: 1.00
+        y: 0.00
+      constrained_dofs: [uz]
+  boundary_condition_component_masks_demo_5x5_nodes:
+    ux:
+      - [1.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+    uy:
+      - [1.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [1.0, 0.0, 0.0, 0.0, 0.0]
+    uz:
+      - [1.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 0.0, 0.0]
+      - [1.0, 0.0, 0.0, 0.0, 1.0]
+
+preprocess_rules:
+  copper_ratio_range: [0.0, 1.0]
+  scalar_layer_features_are_broadcast_over_grid: true
+  output_grid_matches_input_grid: true
+  boundary_conditions_are_defined_on_node_grid: true
+  boundary_condition_encoding_for_model:
+    type: per_dof_spatial_channels
+    source: support_points_or_node_masks
+    target_grid: cell_grid
+    channels:
+      - bc_ux_mask
+      - bc_uy_mask
+      - bc_uz_mask
+    point_constraint_projection: nearest_node_or_small_gaussian_spread
+  recommended_channel_order:
+    - layer01_copper_ratio
+    - layer01_thickness_um
+    - layer01_youngs_modulus_gpa
+    - layer01_poisson_ratio
+    - layer01_cte_ppm_per_C
+    - layer02_copper_ratio
+    - layer02_thickness_um
+    - layer02_youngs_modulus_gpa
+    - layer02_poisson_ratio
+    - layer02_cte_ppm_per_C
+    - layer03_copper_ratio
+    - layer03_thickness_um
+    - layer03_youngs_modulus_gpa
+    - layer03_poisson_ratio
+    - layer03_cte_ppm_per_C
+    - layer04_copper_ratio
+    - layer04_thickness_um
+    - layer04_youngs_modulus_gpa
+    - layer04_poisson_ratio
+    - layer04_cte_ppm_per_C
+    - layer05_copper_ratio
+    - layer05_thickness_um
+    - layer05_youngs_modulus_gpa
+    - layer05_poisson_ratio
+    - layer05_cte_ppm_per_C
+    - layer06_copper_ratio
+    - layer06_thickness_um
+    - layer06_youngs_modulus_gpa
+    - layer06_poisson_ratio
+    - layer06_cte_ppm_per_C
+    - layer07_copper_ratio
+    - layer07_thickness_um
+    - layer07_youngs_modulus_gpa
+    - layer07_poisson_ratio
+    - layer07_cte_ppm_per_C
+    - layer08_copper_ratio
+    - layer08_thickness_um
+    - layer08_youngs_modulus_gpa
+    - layer08_poisson_ratio
+    - layer08_cte_ppm_per_C
+    - layer09_copper_ratio
+    - layer09_thickness_um
+    - layer09_youngs_modulus_gpa
+    - layer09_poisson_ratio
+    - layer09_cte_ppm_per_C
+    - layer10_copper_ratio
+    - layer10_thickness_um
+    - layer10_youngs_modulus_gpa
+    - layer10_poisson_ratio
+    - layer10_cte_ppm_per_C
+    - delta_temperature_C
+    - bc_ux_mask
+    - bc_uy_mask
+    - bc_uz_mask
+    - x_coord
+    - y_coord
+
+layers:
+  - layer_id: 1
+    name: solder_mask_top
+    thickness_um: 15.0
+    youngs_modulus_gpa: 3.2
+    poisson_ratio: 0.35
+    cte_ppm_per_C: 52.0
+    copper_ratio_demo_4x4:
+      - [0.00, 0.00, 0.00, 0.00]
+      - [0.00, 0.05, 0.08, 0.00]
+      - [0.00, 0.06, 0.07, 0.00]
+      - [0.00, 0.00, 0.00, 0.00]
+
+  - layer_id: 2
+    name: rdl_1
+    thickness_um: 8.0
+    youngs_modulus_gpa: 110.0
+    poisson_ratio: 0.34
+    cte_ppm_per_C: 17.0
+    copper_ratio_demo_4x4:
+      - [0.62, 0.58, 0.54, 0.49]
+      - [0.68, 0.73, 0.61, 0.52]
+      - [0.65, 0.77, 0.69, 0.57]
+      - [0.51, 0.60, 0.56, 0.46]
+
+  - layer_id: 3
+    name: dielectric_1
+    thickness_um: 30.0
+    youngs_modulus_gpa: 7.5
+    poisson_ratio: 0.36
+    cte_ppm_per_C: 42.0
+    copper_ratio_demo_4x4:
+      - [0.00, 0.00, 0.00, 0.00]
+      - [0.00, 0.01, 0.02, 0.00]
+      - [0.00, 0.02, 0.01, 0.00]
+      - [0.00, 0.00, 0.00, 0.00]
+
+  - layer_id: 4
+    name: rdl_2
+    thickness_um: 10.0
+    youngs_modulus_gpa: 110.0
+    poisson_ratio: 0.34
+    cte_ppm_per_C: 17.0
+    copper_ratio_demo_4x4:
+      - [0.45, 0.42, 0.39, 0.36]
+      - [0.57, 0.63, 0.55, 0.41]
+      - [0.59, 0.66, 0.60, 0.44]
+      - [0.43, 0.48, 0.46, 0.34]
+
+  - layer_id: 5
+    name: dielectric_2
+    thickness_um: 40.0
+    youngs_modulus_gpa: 7.5
+    poisson_ratio: 0.36
+    cte_ppm_per_C: 42.0
+    copper_ratio_demo_4x4:
+      - [0.00, 0.00, 0.00, 0.00]
+      - [0.00, 0.01, 0.01, 0.00]
+      - [0.00, 0.01, 0.01, 0.00]
+      - [0.00, 0.00, 0.00, 0.00]
+
+  - layer_id: 6
+    name: core
+    thickness_um: 320.0
+    youngs_modulus_gpa: 22.0
+    poisson_ratio: 0.34
+    cte_ppm_per_C: 16.0
+    copper_ratio_demo_4x4:
+      - [0.10, 0.12, 0.11, 0.09]
+      - [0.13, 0.16, 0.17, 0.12]
+      - [0.12, 0.17, 0.16, 0.11]
+      - [0.09, 0.11, 0.10, 0.08]
+
+  - layer_id: 7
+    name: dielectric_3
+    thickness_um: 40.0
+    youngs_modulus_gpa: 7.5
+    poisson_ratio: 0.36
+    cte_ppm_per_C: 42.0
+    copper_ratio_demo_4x4:
+      - [0.00, 0.00, 0.00, 0.00]
+      - [0.00, 0.01, 0.01, 0.00]
+      - [0.00, 0.02, 0.01, 0.00]
+      - [0.00, 0.00, 0.00, 0.00]
+
+  - layer_id: 8
+    name: rdl_3
+    thickness_um: 10.0
+    youngs_modulus_gpa: 110.0
+    poisson_ratio: 0.34
+    cte_ppm_per_C: 17.0
+    copper_ratio_demo_4x4:
+      - [0.38, 0.41, 0.44, 0.40]
+      - [0.46, 0.54, 0.58, 0.47]
+      - [0.43, 0.57, 0.61, 0.50]
+      - [0.35, 0.46, 0.48, 0.39]
+
+  - layer_id: 9
+    name: dielectric_4
+    thickness_um: 30.0
+    youngs_modulus_gpa: 7.5
+    poisson_ratio: 0.36
+    cte_ppm_per_C: 42.0
+    copper_ratio_demo_4x4:
+      - [0.00, 0.00, 0.00, 0.00]
+      - [0.00, 0.02, 0.02, 0.00]
+      - [0.00, 0.02, 0.02, 0.00]
+      - [0.00, 0.00, 0.00, 0.00]
+
+  - layer_id: 10
+    name: solder_mask_bottom
+    thickness_um: 15.0
+    youngs_modulus_gpa: 3.2
+    poisson_ratio: 0.35
+    cte_ppm_per_C: 52.0
+    copper_ratio_demo_4x4:
+      - [0.00, 0.00, 0.00, 0.00]
+      - [0.00, 0.04, 0.05, 0.00]
+      - [0.00, 0.05, 0.04, 0.00]
+      - [0.00, 0.00, 0.00, 0.00]
+
+optional_extensions:
+  notes: >
+    If copper directionality matters, replace scalar layer properties with spatial maps
+    such as eq_exx_gpa_map, eq_eyy_gpa_map, eq_alphaxx_ppm_per_C_map, and
+    eq_alphayy_ppm_per_C_map for each layer.
+  additional_fields:
+    - via_density_map
+    - eq_exx_gpa_map
+    - eq_eyy_gpa_map
+    - eq_alphaxx_ppm_per_C_map
+    - eq_alphayy_ppm_per_C_map
